@@ -1,0 +1,12 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  PhpGuild\DoctrineExtraBundle\:
+    resource: '../../*'
+    exclude: '../../{DependencyInjection,DoctrineExtraBundle.php}'
+
+  PhpGuild\DoctrineExtraBundle\EventSubscriber\UuidSubscriber:
+    tags:
+      - { name: 'doctrine.event_subscriber' }

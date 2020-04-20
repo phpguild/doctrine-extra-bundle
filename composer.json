@@ -1,0 +1,22 @@
+{
+  "name": "phpguild/doctrine-extra-bundle",
+  "description": "Doctrine Extra Bundle",
+  "type": "symfony-bundle",
+  "license": "GPL-3.0",
+  "authors": [
+    {
+      "name": "Johnstyle",
+      "homepage": "https://github.com/johnstyle"
+    }
+  ],
+  "require": {
+    "php": ">=7.1",
+    "knplabs/doctrine-behaviors": "^2.0",
+    "symfony/orm-pack": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "PhpGuild\\DoctrineExtraBundle\\": "src/"
+    }
+  }
+}
