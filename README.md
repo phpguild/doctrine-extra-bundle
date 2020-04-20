@@ -31,8 +31,8 @@ Auto generated UUID
 Auto increment numeric ID
 
     use Doctrine\ORM\Mapping as ORM;
-    use PhpGuild\DoctrineExtraBundle\Model\Uuid\IdentityInterface;
-    use PhpGuild\DoctrineExtraBundle\Model\Uuid\IdentityTrait;
+    use PhpGuild\DoctrineExtraBundle\Model\Identity\IdentityInterface;
+    use PhpGuild\DoctrineExtraBundle\Model\Identity\IdentityTrait;
 
     /**
      * Class User
