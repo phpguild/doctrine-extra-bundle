@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace PhpGuild\DoctrineExtraBundle\Model\IntId;
+namespace PhpGuild\DoctrineExtraBundle\Model\Identity;
 
 /**
- * Trait IntIdMethodsTrait
+ * Trait IdentityMethodsTrait
  */
-trait IntIdMethodsTrait
+trait IdentityMethodsTrait
 {
     /**
      * getId
@@ -24,9 +24,9 @@ trait IntIdMethodsTrait
      *
      * @param int $id
      *
-     * @return IntIdInterface|self
+     * @return IdentityInterface|self
      */
-    public function setId($id): IntIdInterface
+    public function setId($id): IdentityInterface
     {
         $this->id = $id;
 

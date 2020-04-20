@@ -11,12 +11,6 @@ use PhpGuild\DoctrineExtraBundle\Model\IdInterface;
  */
 interface UuidInterface extends IdInterface
 {
-    /** @var string */
-    public const ID_FIELD_TYPE = 'guid';
-
-    /** @var string  */
-    public const ID_FIELD_STRATEGY = 'UUID';
-
     /**
      * getId
      *

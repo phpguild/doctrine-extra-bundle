@@ -5,11 +5,15 @@ declare(strict_types=1);
 namespace PhpGuild\DoctrineExtraBundle\EventSubscriber;
 
 use Doctrine\Common\EventSubscriber;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
 use Doctrine\ORM\Events;
+use Doctrine\ORM\Id\IdentityGenerator;
+use Doctrine\ORM\Id\UuidGenerator;
+use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\ORM\Mapping\MappingException;
+use PhpGuild\DoctrineExtraBundle\Model\Identity\IdentityInterface;
 use PhpGuild\DoctrineExtraBundle\Model\IdInterface;
-use PhpGuild\DoctrineExtraBundle\Model\IntId\IntIdInterface;
 use PhpGuild\DoctrineExtraBundle\Model\Uuid\UuidInterface;
 
 /**
@@ -38,10 +42,6 @@ final class UuidSubscriber implements EventSubscriber
     {
         $classMetadata = $loadClassMetadataEventArgs->getClassMetadata();
 
-        if (true === $classMetadata->isMappedSuperclass) {
-            return;
-        }
-
         if (
             true === $classMetadata->isMappedSuperclass
             || null === $classMetadata->reflClass
@@ -51,21 +51,35 @@ final class UuidSubscriber implements EventSubscriber
             return;
         }
 
-        $type = IntIdInterface::ID_FIELD_TYPE;
-        $strategy = IntIdInterface::ID_FIELD_STRATEGY;
+        $type = null;
+        $generator = null;
+        $generatorType = null;
 
         if (is_a($classMetadata->reflClass->getName(), UuidInterface::class, true)) {
-            $type = UuidInterface::ID_FIELD_TYPE;
-            $strategy = UuidInterface::ID_FIELD_STRATEGY;
+            $type = Types::GUID;
+            $generator = new UuidGenerator();
+            $generatorType = ClassMetadataInfo::GENERATOR_TYPE_UUID;
+
+        } elseif (is_a($classMetadata->reflClass->getName(), IdentityInterface::class, true)) {
+            $type = Types::INTEGER;
+            $generator = new IdentityGenerator();
+            $generatorType = ClassMetadataInfo::GENERATOR_TYPE_IDENTITY;
+        }
+
+        if (!$type || !$generator || !$generatorType) {
+            return;
         }
 
         $classMetadata->mapField([
             'id' => true,
-            'fieldName' => IdInterface::ID_FIELD_NAME,
+            'unique' => true,
+            'nullable' => false,
             'type' => $type,
-            'generator' => [
-                'strategy' => $strategy,
-            ],
+            'fieldName' => IdInterface::ID_FIELD_NAME,
+            'columnName' => IdInterface::ID_FIELD_NAME,
         ]);
+
+        $classMetadata->setIdGenerator($generator);
+        $classMetadata->setIdGeneratorType($generatorType);
     }
 }
