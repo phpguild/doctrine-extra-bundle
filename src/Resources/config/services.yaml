@@ -5,7 +5,7 @@ services:
 
   PhpGuild\DoctrineExtraBundle\:
     resource: '../../*'
-    exclude: '../../{DependencyInjection,DoctrineExtraBundle.php}'
+    exclude: '../../{DependencyInjection,Resources,DoctrineExtraBundle.php}'
 
   PhpGuild\DoctrineExtraBundle\EventSubscriber\UuidSubscriber:
     tags:

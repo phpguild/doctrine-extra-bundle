@@ -10,10 +10,20 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
- * Class DoctrineExtraExtension
+ * Class PhpGuildDoctrineExtraExtension
  */
-class DoctrineExtraExtension extends Extension
+class PhpGuildDoctrineExtraExtension extends Extension
 {
+    /**
+     * getAlias
+     *
+     * @return string
+     */
+    public function getAlias(): string
+    {
+        return 'phpguild_doctrine_extra';
+    }
+
     /**
      * @param array $configs
      * @param ContainerBuilder $container
@@ -25,4 +35,3 @@ class DoctrineExtraExtension extends Extension
         $loader->load('services.yaml');
     }
 }
-
