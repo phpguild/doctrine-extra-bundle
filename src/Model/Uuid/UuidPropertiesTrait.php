@@ -9,6 +9,6 @@ namespace PhpGuild\DoctrineExtraBundle\Model\Uuid;
  */
 trait UuidPropertiesTrait
 {
-    /** @var string|null */
+    /** @var string|null $id */
     protected $id;
 }

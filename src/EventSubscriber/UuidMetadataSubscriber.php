@@ -17,9 +17,9 @@ use PhpGuild\DoctrineExtraBundle\Model\IdInterface;
 use PhpGuild\DoctrineExtraBundle\Model\Uuid\UuidInterface;
 
 /**
- * Class UuidSubscriber
+ * Class UuidMetadataSubscriber
  */
-final class UuidSubscriber implements EventSubscriber
+final class UuidMetadataSubscriber implements EventSubscriber
 {
     /**
      * getSubscribedEvents
@@ -46,7 +46,7 @@ final class UuidSubscriber implements EventSubscriber
             true === $classMetadata->isMappedSuperclass
             || null === $classMetadata->reflClass
             || !is_a($classMetadata->reflClass->getName(), IdInterface::class, true)
-            || $classMetadata->hasField(IdInterface::ID_FIELD_NAME)
+            || $classMetadata->hasField(IdInterface::ID_COLUMN_NAME)
         ) {
             return;
         }
@@ -75,8 +75,8 @@ final class UuidSubscriber implements EventSubscriber
             'unique' => true,
             'nullable' => false,
             'type' => $type,
-            'fieldName' => IdInterface::ID_FIELD_NAME,
-            'columnName' => IdInterface::ID_FIELD_NAME,
+            'fieldName' => IdInterface::ID_COLUMN_NAME,
+            'columnName' => IdInterface::ID_COLUMN_NAME,
         ]);
 
         $classMetadata->setIdGenerator($generator);
