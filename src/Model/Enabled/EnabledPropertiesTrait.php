@@ -10,5 +10,5 @@ namespace PhpGuild\DoctrineExtraBundle\Model\Enabled;
 trait EnabledPropertiesTrait
 {
     /** @var bool $enabled */
-    protected $enabled;
+    protected $enabled = false;
 }
