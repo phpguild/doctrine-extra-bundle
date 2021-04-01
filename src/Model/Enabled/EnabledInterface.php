@@ -15,6 +15,13 @@ interface EnabledInterface extends IdInterface
     public const ENABLED_COLUMN_NAME = 'enabled';
 
     /**
+     * isActive
+     *
+     * @return bool
+     */
+    public function isActive(): bool;
+
+    /**
      * isEnabled
      *
      * @return bool
