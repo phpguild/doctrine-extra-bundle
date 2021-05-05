@@ -10,7 +10,7 @@ namespace PhpGuild\DoctrineExtraBundle\Model;
 interface IdInterface
 {
     /** @var string */
-    public const ID_COLUMN_NAME = 'id';
+    public const ID_FIELD_NAME = 'id';
 
     /**
      * getId

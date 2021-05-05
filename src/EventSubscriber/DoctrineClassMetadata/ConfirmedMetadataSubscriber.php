@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace PhpGuild\DoctrineExtraBundle\EventSubscriber;
+namespace PhpGuild\DoctrineExtraBundle\EventSubscriber\DoctrineClassMetadata;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
 use Doctrine\ORM\Events;
 use Doctrine\ORM\Mapping\MappingException;
-use PhpGuild\DoctrineExtraBundle\Model\Enabled\EnabledInterface;
+use PhpGuild\DoctrineExtraBundle\Model\Confirmed\ConfirmedInterface;
 
 /**
- * Class EnabledMetadataSubscriber
+ * Class ConfirmedMetadataSubscriber
  */
-final class EnabledMetadataSubscriber implements EventSubscriber
+final class ConfirmedMetadataSubscriber implements EventSubscriber
 {
     /**
      * getSubscribedEvents
@@ -40,16 +40,21 @@ final class EnabledMetadataSubscriber implements EventSubscriber
         if (
             true === $classMetadata->isMappedSuperclass
             || null === $classMetadata->reflClass
-            || !is_a($classMetadata->reflClass->getName(), EnabledInterface::class, true)
+            || !is_a($classMetadata->reflClass->getName(), ConfirmedInterface::class, true)
         ) {
             return;
         }
 
         $classMetadata->mapField([
             'nullable' => true,
-            'type' => Types::BOOLEAN,
-            'fieldName' => EnabledInterface::ENABLED_COLUMN_NAME,
-            'columnName' => EnabledInterface::ENABLED_COLUMN_NAME,
+            'type' => Types::DATETIME_MUTABLE,
+            'fieldName' => ConfirmedInterface::CONFIRMED_AT_FIELD_NAME,
+        ]);
+
+        $classMetadata->mapField([
+            'nullable' => true,
+            'type' => Types::STRING,
+            'fieldName' => ConfirmedInterface::CONFIRMED_TOKEN_FIELD_NAME,
         ]);
     }
 }

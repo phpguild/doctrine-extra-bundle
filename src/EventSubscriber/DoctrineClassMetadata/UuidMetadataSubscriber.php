@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpGuild\DoctrineExtraBundle\EventSubscriber;
+namespace PhpGuild\DoctrineExtraBundle\EventSubscriber\DoctrineClassMetadata;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\DBAL\Types\Types;
@@ -46,7 +46,7 @@ final class UuidMetadataSubscriber implements EventSubscriber
             true === $classMetadata->isMappedSuperclass
             || null === $classMetadata->reflClass
             || !is_a($classMetadata->reflClass->getName(), IdInterface::class, true)
-            || $classMetadata->hasField(IdInterface::ID_COLUMN_NAME)
+            || $classMetadata->hasField(IdInterface::ID_FIELD_NAME)
         ) {
             return;
         }
@@ -75,8 +75,7 @@ final class UuidMetadataSubscriber implements EventSubscriber
             'unique' => true,
             'nullable' => false,
             'type' => $type,
-            'fieldName' => IdInterface::ID_COLUMN_NAME,
-            'columnName' => IdInterface::ID_COLUMN_NAME,
+            'fieldName' => IdInterface::ID_FIELD_NAME,
         ]);
 
         $classMetadata->setIdGenerator($generator);

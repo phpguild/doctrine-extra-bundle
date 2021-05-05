@@ -12,7 +12,7 @@ use PhpGuild\DoctrineExtraBundle\Model\IdInterface;
 interface EnabledInterface extends IdInterface
 {
     /** @var string */
-    public const ENABLED_COLUMN_NAME = 'enabled';
+    public const ENABLED_FIELD_NAME = 'enabled';
 
     /**
      * isActive

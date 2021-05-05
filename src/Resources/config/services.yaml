@@ -7,10 +7,7 @@ services:
     resource: '../../*'
     exclude: '../../{DependencyInjection,Resources,DoctrineExtraBundle.php}'
 
-  PhpGuild\DoctrineExtraBundle\EventSubscriber\UuidMetadataSubscriber:
-    tags:
-      - { name: doctrine.event_subscriber, priority: 256 }
-
-  PhpGuild\DoctrineExtraBundle\EventSubscriber\EnabledMetadataSubscriber:
+  PhpGuild\DoctrineExtraBundle\EventSubscriber\DoctrineClassMetadata\:
+    resource: ../../EventSubscriber/DoctrineClassMetadata
     tags:
       - { name: doctrine.event_subscriber, priority: 256 }
