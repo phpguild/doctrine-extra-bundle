@@ -53,6 +53,7 @@ final class ConfirmedMetadataSubscriber implements EventSubscriber
 
         $classMetadata->mapField([
             'nullable' => true,
+            'unique' => true,
             'type' => Types::STRING,
             'fieldName' => ConfirmedInterface::CONFIRMED_TOKEN_FIELD_NAME,
         ]);
