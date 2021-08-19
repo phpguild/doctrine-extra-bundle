@@ -14,9 +14,9 @@ interface PositionInterface
     /**
      * getPosition
      *
-     * @return int
+     * @return int|null
      */
-    public function getPosition(): int;
+    public function getPosition(): ?int;
 
     /**
      * setPosition

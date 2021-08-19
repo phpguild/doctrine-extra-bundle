@@ -34,19 +34,24 @@ final class PositionSubscriber implements EventSubscriber
         $entityManager = $eventArgs->getEntityManager();
         $unitOfWork = $entityManager->getUnitOfWork();
 
+        $nextPosition = null;
+
         foreach ($unitOfWork->getScheduledEntityInsertions() as $entity) {
-            if (!$entity instanceof PositionInterface || 0 !== $entity->getPosition()) {
+            if (!$entity instanceof PositionInterface || null !== $entity->getPosition()) {
                 continue;
             }
-            
-            $currentPosition = (int) $entityManager->getRepository(get_class($entity))
-                ->createQueryBuilder('e')
-                ->select(sprintf('MAX(e.%s)', PositionInterface::POSITION_FIELD_NAME))
-                ->getQuery()
-                ->getSingleScalarResult()
-            ;
 
-            $entity->setPosition($currentPosition + 1);
+            if (null === $nextPosition) {
+                $nextPosition = $entityManager->getRepository(get_class($entity))
+                    ->createQueryBuilder('e')
+                    ->select(sprintf('MAX(e.%s)', PositionInterface::POSITION_FIELD_NAME))
+                    ->getQuery()
+                    ->getSingleScalarResult()
+                ;
+            }
+
+            $nextPosition = null === $nextPosition ? 0 : $nextPosition + 1;
+            $entity->setPosition($nextPosition);
 
             $unitOfWork->recomputeSingleEntityChangeSet($entityManager->getClassMetadata(get_class($entity)), $entity);
         }

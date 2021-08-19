@@ -9,6 +9,6 @@ namespace PhpGuild\DoctrineExtraBundle\Model\Position;
  */
 trait PositionPropertiesTrait
 {
-    /** @var int */
-    protected $position = 0;
+    /** @var int|null */
+    protected $position = null;
 }
