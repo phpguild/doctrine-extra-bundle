@@ -39,6 +39,9 @@ final class PositionSubscriber implements EventSubscriber
         $entityManager = $eventArgs->getEntityManager();
         $unitOfWork = $entityManager->getUnitOfWork();
 
+        $filterCollection = $entityManager->getFilters();
+        $enabledFilters = array_keys($filterCollection->getEnabledFilters());
+
         $nextPosition = null;
 
         foreach ($unitOfWork->getScheduledEntityInsertions() as $entity) {
@@ -49,12 +52,19 @@ final class PositionSubscriber implements EventSubscriber
             $className = \get_class($entity);
 
             if (null === $nextPosition) {
+                foreach ($enabledFilters as $filter) {
+                    $filterCollection->disable($filter);
+                }
+
                 $nextPosition = $entityManager->getRepository($className)
                     ->createQueryBuilder('e')
                     ->select(sprintf('MAX(e.%s)', PositionInterface::POSITION_FIELD_NAME))
                     ->getQuery()
-                    ->getSingleScalarResult()
-                ;
+                    ->getSingleScalarResult();
+
+                foreach ($enabledFilters as $filter) {
+                    $filterCollection->enable($filter);
+                }
             }
 
             $nextPosition = null === $nextPosition ? 0 : $nextPosition + 1;
