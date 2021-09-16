@@ -21,9 +21,9 @@ interface PositionInterface
     /**
      * setPosition
      *
-     * @param int $position
+     * @param int|null $position
      *
      * @return PositionInterface|self
      */
-    public function setPosition(int $position): PositionInterface;
+    public function setPosition(?int $position): PositionInterface;
 }

@@ -22,11 +22,11 @@ trait PositionMethodsTrait
     /**
      * setPosition
      *
-     * @param int $position
+     * @param int|null $position
      *
      * @return PositionInterface
      */
-    public function setPosition(int $position): PositionInterface
+    public function setPosition(?int $position): PositionInterface
     {
         $this->position = $position;
 
