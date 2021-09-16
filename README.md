@@ -8,7 +8,9 @@ Install with composer
 
 ## Usage
 
-### Entity with UUID
+### Models
+
+#### Entity with UUID
 
 Auto generated UUID
 
@@ -26,7 +28,7 @@ Auto generated UUID
         use UuidTrait;
     }
 
-### Entity with Identity
+#### Entity with Identity
 
 Auto increment numeric ID
 
@@ -43,6 +45,17 @@ Auto increment numeric ID
     {
         use IdentityTrait;
     }
+
+### Filters
+
+#### SofDeletable
+
+        doctrine:
+            orm:
+                filters:
+                    soft_deletable:
+                        class: PhpGuild\DoctrineExtraBundle\Doctrine\Filter\SoftDeletableFilter
+                        enabled: true
 
 ### Doctrine Behaviors
 

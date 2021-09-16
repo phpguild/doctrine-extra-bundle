@@ -7,6 +7,8 @@ namespace PhpGuild\DoctrineExtraBundle\EventSubscriber\DoctrineClassMetadata;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Events;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use PhpGuild\DoctrineExtraBundle\Model\Position\PositionInterface;
 
 /**
@@ -28,6 +30,9 @@ final class PositionSubscriber implements EventSubscriber
      * onFlush
      *
      * @param OnFlushEventArgs $eventArgs
+     *
+     * @throws NoResultException
+     * @throws NonUniqueResultException
      */
     public function onFlush(OnFlushEventArgs $eventArgs): void
     {
@@ -41,8 +46,10 @@ final class PositionSubscriber implements EventSubscriber
                 continue;
             }
 
+            $className = \get_class($entity);
+
             if (null === $nextPosition) {
-                $nextPosition = $entityManager->getRepository(get_class($entity))
+                $nextPosition = $entityManager->getRepository($className)
                     ->createQueryBuilder('e')
                     ->select(sprintf('MAX(e.%s)', PositionInterface::POSITION_FIELD_NAME))
                     ->getQuery()
@@ -53,7 +60,7 @@ final class PositionSubscriber implements EventSubscriber
             $nextPosition = null === $nextPosition ? 0 : $nextPosition + 1;
             $entity->setPosition($nextPosition);
 
-            $unitOfWork->recomputeSingleEntityChangeSet($entityManager->getClassMetadata(get_class($entity)), $entity);
+            $unitOfWork->recomputeSingleEntityChangeSet($entityManager->getClassMetadata($className), $entity);
         }
     }
 }
