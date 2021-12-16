@@ -9,12 +9,12 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
 use Doctrine\ORM\Events;
 use Doctrine\ORM\Id\IdentityGenerator;
-use Doctrine\ORM\Id\UuidGenerator;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\ORM\Mapping\MappingException;
 use PhpGuild\DoctrineExtraBundle\Model\Identity\IdentityInterface;
 use PhpGuild\DoctrineExtraBundle\Model\IdInterface;
 use PhpGuild\DoctrineExtraBundle\Model\Uuid\UuidInterface;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 
 /**
  * Class UuidMetadataSubscriber
@@ -56,9 +56,9 @@ final class UuidMetadataSubscriber implements EventSubscriber
         $generatorType = null;
 
         if (is_a($classMetadata->reflClass->getName(), UuidInterface::class, true)) {
-            $type = Types::GUID;
-            $generator = new UuidGenerator();
-            $generatorType = ClassMetadataInfo::GENERATOR_TYPE_UUID;
+            $type = 'uuid';
+            $generator = UuidGenerator::class;
+            $generatorType = ClassMetadataInfo::GENERATOR_TYPE_CUSTOM;
 
         } elseif (is_a($classMetadata->reflClass->getName(), IdentityInterface::class, true)) {
             $type = Types::INTEGER;
@@ -70,6 +70,9 @@ final class UuidMetadataSubscriber implements EventSubscriber
             return;
         }
 
+        $classMetadata->setIdGenerator(new $generator());
+        $classMetadata->setIdGeneratorType($generatorType);
+
         $classMetadata->mapField([
             'id' => true,
             'unique' => true,
@@ -78,7 +81,8 @@ final class UuidMetadataSubscriber implements EventSubscriber
             'fieldName' => IdInterface::ID_FIELD_NAME,
         ]);
 
-        $classMetadata->setIdGenerator($generator);
-        $classMetadata->setIdGeneratorType($generatorType);
+        if ($generatorType === ClassMetadataInfo::GENERATOR_TYPE_CUSTOM) {
+            $classMetadata->setCustomGeneratorDefinition(['class' => $generator]);
+        }
     }
 }
