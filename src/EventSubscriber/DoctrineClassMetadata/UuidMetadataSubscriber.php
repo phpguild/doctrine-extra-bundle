@@ -56,7 +56,7 @@ final class UuidMetadataSubscriber implements EventSubscriber
         $generatorType = null;
 
         if (is_a($classMetadata->reflClass->getName(), UuidInterface::class, true)) {
-            $type = 'uuid';
+            $type = 'guid';
             $generator = UuidGenerator::class;
             $generatorType = ClassMetadataInfo::GENERATOR_TYPE_CUSTOM;
 
