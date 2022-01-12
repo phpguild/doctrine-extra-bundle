@@ -16,7 +16,7 @@ trait UuidMethodsTrait
      *
      * @return string
      */
-    public function getId(): ?Uuid
+    public function getId(): ?string
     {
         return $this->id;
     }

@@ -17,7 +17,7 @@ interface UuidInterface extends IdInterface
      *
      * @return string
      */
-    public function getId(): ?Uuid;
+    public function getId(): ?string;
 
     /**
      * setId
