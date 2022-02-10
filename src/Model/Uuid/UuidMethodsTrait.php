@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace PhpGuild\DoctrineExtraBundle\Model\Uuid;
 
-use Symfony\Component\Uid\Uuid;
-
 /**
  * Trait UuidMethodsTrait
  */
@@ -18,7 +16,7 @@ trait UuidMethodsTrait
      */
     public function getId(): ?string
     {
-        return $this->id;
+        return (string) $this->id;
     }
 
     /**
@@ -30,7 +28,7 @@ trait UuidMethodsTrait
      */
     public function setId($id): UuidInterface
     {
-        $this->id = $id;
+        $this->id = (string) $id;
 
         return $this;
     }

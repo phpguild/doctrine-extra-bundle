@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace PhpGuild\DoctrineExtraBundle\Model\Uuid;
 
 use PhpGuild\DoctrineExtraBundle\Model\IdInterface;
-use Symfony\Component\Uid\Uuid;
 
 /**
  * Interface UuidInterface
